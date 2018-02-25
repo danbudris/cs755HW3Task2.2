@@ -44,3 +44,7 @@ jobs:
 
       - store_artifacts:
           path: target/assign2_task2_part2-0.1-SNAPSHOT-jar-with-dependencies.jar
+
+    deployment:
+      commands:
+        - aws s3 sync target/assign2_task2_part2-0.1-SAPSHOT-jar-with-dependenceis.jar

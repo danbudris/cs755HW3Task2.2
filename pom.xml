@@ -36,7 +36,7 @@
                 </descriptorRefs>
                 <archive>
                     <manifest>
-                        <mainClass>edu.bu.cs755.Task2_1</mainClass>
+                        <mainClass>edu.bu.cs755.Task2_2</mainClass>
                     </manifest>
                 </archive>
             </configuration>

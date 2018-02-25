@@ -22,7 +22,7 @@ public class Task2_2 {
 
     public static class SortMedallionErrors extends Mapper<LongWritable, Text, DoubleWritable, Text> {
 
-        PriorityQueue<Map.Entry<Text, DoubleWritable>> q = new PriorityQueue<>(500, new Comparator<Map.Entry<Text, DoubleWritable>>() {
+        PriorityQueue<Map.Entry<Text, DoubleWritable>> q = new PriorityQueue<>(6, new Comparator<Map.Entry<Text, DoubleWritable>>() {
             @Override
             public int compare(Map.Entry<Text, DoubleWritable> e1, Map.Entry<Text, DoubleWritable> e2) {
                 return e1.getValue().compareTo(e2.getValue());
@@ -50,7 +50,7 @@ public class Task2_2 {
             q.addAll(map.entrySet());
 
             // If the q is greater than 50, remove the least
-            if (q.size() >= 501) {
+            if (q.size() >= 6) {
                 /*
                 System.out.println("------- COMPARING IN Q --------");
                 System.out.println("Peek: " + q.peek().getValue() + " " + q.peek().getKey() + "\n % Value:" + percentage + "\n");

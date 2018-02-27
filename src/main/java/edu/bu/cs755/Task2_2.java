@@ -19,7 +19,7 @@ import java.io.IOException;
 public class Task2_2 {
 
     public static class SortMedallionErrors extends Mapper<LongWritable, Text, DoubleWritable, Text> {
-
+        // Set up the priority q and comparator to get only the largest (worst) values
         PriorityQueue<Map.Entry<Text, DoubleWritable>> q = new PriorityQueue<>(6, new Comparator<Map.Entry<Text, DoubleWritable>>() {
             @Override
             public int compare(Map.Entry<Text, DoubleWritable> e1, Map.Entry<Text, DoubleWritable> e2) {
@@ -29,12 +29,14 @@ public class Task2_2 {
 
         public void map(LongWritable key, Text value, Context context
         ) throws IOException, InterruptedException {
+            // parse the input to string
             String line = value.toString();
+            // split on tabs (the output format from the last step)
             String[] fields = line.split("\t");
             Text medallion = new Text(fields[0]);
             DoubleWritable percentage = new DoubleWritable(Double.parseDouble(fields[1]));
 
-            // Add the map the q
+            // Create the map and add it to the q
             Map <Text, DoubleWritable> map = new HashMap();
             map.put(medallion, percentage);
             q.addAll(map.entrySet());
@@ -45,9 +47,11 @@ public class Task2_2 {
             }
         }
 
+        // cleanup method; write to the context, but first switch the medallion and error rate to allow reducer to naturally sort
         public void cleanup(Context context
         ) throws IOException, InterruptedException {
             while(!q.isEmpty()) {
+                // using peek here bc poll removes; remove after adding values
                 context.write(q.peek().getValue(), q.peek().getKey());
                 q.remove();
             }
@@ -59,6 +63,7 @@ public class Task2_2 {
                            Context context
         ) throws IOException, InterruptedException {
             for (Text val : values) {
+                // switch the key and value back to key/value from value/key before writing to the context
                 context.write(key, val);
             }
         }
